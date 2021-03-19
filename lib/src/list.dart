@@ -4,30 +4,30 @@ class InfiniteListView extends StatefulWidget {
   final double scrollThreshold;
   final Function nextData;
   final bool hasNext;
-  final Widget loadingWidget;
+  final Widget? loadingWidget;
   final Widget Function(BuildContext, int) itemBuilder;
   final int itemCount;
   final bool _separated;
-  final Widget Function(BuildContext, int) _separatorBuilder;
+  final Widget Function(BuildContext, int)? _separatorBuilder;
   final Axis scrollDirection;
   final bool reverse;
-  final ScrollController controller;
-  final bool primary;
-  final ScrollPhysics physics;
+  final ScrollController? controller;
+  final bool? primary;
+  final ScrollPhysics? physics;
   final bool shrinkWrap;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final bool addAutomaticKeepAlives;
   final bool addRepaintBoundaries;
   final bool addSemanticIndexes;
-  final double cacheExtent;
-  final int semanticChildCount;
-  final double itemExtent;
+  final double? cacheExtent;
+  final int? semanticChildCount;
+  final double? itemExtent;
 
   const InfiniteListView({
-    @required this.itemBuilder,
-    @required this.itemCount,
-    @required this.nextData,
-    Key key,
+    required this.itemBuilder,
+    required this.itemCount,
+    required this.nextData,
+    Key? key,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.padding,
@@ -49,11 +49,11 @@ class InfiniteListView extends StatefulWidget {
         super(key: key);
 
   const InfiniteListView.separated({
-    @required this.itemBuilder,
-    @required this.itemCount,
-    @required this.nextData,
-    @required Function(BuildContext, int) separatorBuilder,
-    Key key,
+    required this.itemBuilder,
+    required this.itemCount,
+    required this.nextData,
+    required Function(BuildContext, int) separatorBuilder,
+    Key? key,
     this.semanticChildCount,
     this.itemExtent,
     this.scrollDirection = Axis.vertical,
@@ -71,7 +71,7 @@ class InfiniteListView extends StatefulWidget {
     this.scrollThreshold = 300,
     this.hasNext = false,
   })  : _separated = true,
-        _separatorBuilder = separatorBuilder,
+        _separatorBuilder = separatorBuilder as Widget Function(BuildContext, int)?,
         super(key: key);
 
   @override
@@ -81,8 +81,8 @@ class InfiniteListView extends StatefulWidget {
 }
 
 class _InfiniteListViewState extends State<InfiniteListView> {
-  ScrollController _scrollController;
-  int _lastLoadedEvent;
+  late ScrollController _scrollController;
+  int? _lastLoadedEvent;
 
   @override
   void initState() {
@@ -106,8 +106,7 @@ class _InfiniteListViewState extends State<InfiniteListView> {
   }
 
   bool _hasScroll() {
-    return _scrollController.position.maxScrollExtent != null &&
-        _scrollController.position.maxScrollExtent > 0;
+    return _scrollController.position.haveDimensions && _scrollController.position.maxScrollExtent > 0;
   }
 
   @override
@@ -118,7 +117,7 @@ class _InfiniteListViewState extends State<InfiniteListView> {
           _lastLoadedEvent == null &&
           widget.hasNext) {
         _lastLoadedEvent = widget.itemCount;
-        WidgetsBinding.instance.addPostFrameCallback((_) => widget.nextData());
+        WidgetsBinding.instance!.addPostFrameCallback((_) => widget.nextData());
       }
 
       if (index == widget.itemCount) {
@@ -146,7 +145,7 @@ class _InfiniteListViewState extends State<InfiniteListView> {
         primary: widget.primary,
         physics: widget.physics,
         shrinkWrap: widget.shrinkWrap,
-        separatorBuilder: widget._separatorBuilder,
+        separatorBuilder: widget._separatorBuilder!,
         itemCount: widget.hasNext ? widget.itemCount + 1 : widget.itemCount,
       );
     }

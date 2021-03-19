@@ -4,29 +4,29 @@ class InfiniteGridView extends StatefulWidget {
   final double scrollThreshold;
   final Function nextData;
   final bool hasNext;
-  final Widget loadingWidget;
+  final Widget? loadingWidget;
   final Widget Function(BuildContext, int) itemBuilder;
   final int itemCount;
   final SliverGridDelegate gridDelegate;
   final Axis scrollDirection;
   final bool reverse;
-  final ScrollController controller;
-  final bool primary;
-  final ScrollPhysics physics;
+  final ScrollController? controller;
+  final bool? primary;
+  final ScrollPhysics? physics;
   final bool shrinkWrap;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final bool addAutomaticKeepAlives;
   final bool addRepaintBoundaries;
   final bool addSemanticIndexes;
-  final double cacheExtent;
-  final int semanticChildCount;
+  final double? cacheExtent;
+  final int? semanticChildCount;
 
   const InfiniteGridView({
-    @required this.nextData,
-    @required this.itemBuilder,
-    @required this.itemCount,
-    @required this.gridDelegate,
-    Key key,
+    required this.nextData,
+    required this.itemBuilder,
+    required this.itemCount,
+    required this.gridDelegate,
+    Key? key,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.controller,
@@ -51,11 +51,12 @@ class InfiniteGridView extends StatefulWidget {
 }
 
 class _InfiniteGridViewState extends State<InfiniteGridView> {
-  final _scrollController = ScrollController();
-  int _lastLoadedEvent;
+  late ScrollController _scrollController;
+  int? _lastLoadedEvent;
 
   @override
   void initState() {
+    _scrollController = widget.controller ?? ScrollController();
     _scrollController.addListener(_onScroll);
     super.initState();
   }
@@ -75,8 +76,7 @@ class _InfiniteGridViewState extends State<InfiniteGridView> {
   }
 
   bool _hasScroll() {
-    return _scrollController.position.maxScrollExtent != null &&
-        _scrollController.position.maxScrollExtent > 0;
+    return _scrollController.position.haveDimensions && _scrollController.position.maxScrollExtent > 0;
   }
 
   @override
@@ -102,7 +102,7 @@ class _InfiniteGridViewState extends State<InfiniteGridView> {
             _lastLoadedEvent == null &&
             widget.hasNext) {
           _lastLoadedEvent = widget.itemCount;
-          WidgetsBinding.instance
+          WidgetsBinding.instance!
               .addPostFrameCallback((_) => widget.nextData());
         }
         if (index == widget.itemCount) {
