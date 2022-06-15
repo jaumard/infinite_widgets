@@ -76,7 +76,8 @@ class _InfiniteGridViewState extends State<InfiniteGridView> {
   }
 
   bool _hasScroll() {
-    return _scrollController.position.haveDimensions && _scrollController.position.maxScrollExtent > 0;
+    return _scrollController.position.haveDimensions &&
+        _scrollController.position.maxScrollExtent > 0;
   }
 
   @override
@@ -102,7 +103,7 @@ class _InfiniteGridViewState extends State<InfiniteGridView> {
             _lastLoadedEvent == null &&
             widget.hasNext) {
           _lastLoadedEvent = widget.itemCount;
-          WidgetsBinding.instance!
+          WidgetsBinding.instance
               .addPostFrameCallback((_) => widget.nextData());
         }
         if (index == widget.itemCount) {

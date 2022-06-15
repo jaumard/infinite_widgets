@@ -71,7 +71,8 @@ class InfiniteListView extends StatefulWidget {
     this.scrollThreshold = 300,
     this.hasNext = false,
   })  : _separated = true,
-        _separatorBuilder = separatorBuilder as Widget Function(BuildContext, int)?,
+        _separatorBuilder =
+            separatorBuilder as Widget Function(BuildContext, int)?,
         super(key: key);
 
   @override
@@ -106,7 +107,8 @@ class _InfiniteListViewState extends State<InfiniteListView> {
   }
 
   bool _hasScroll() {
-    return _scrollController.position.haveDimensions && _scrollController.position.maxScrollExtent > 0;
+    return _scrollController.position.haveDimensions &&
+        _scrollController.position.maxScrollExtent > 0;
   }
 
   @override
@@ -117,7 +119,7 @@ class _InfiniteListViewState extends State<InfiniteListView> {
           _lastLoadedEvent == null &&
           widget.hasNext) {
         _lastLoadedEvent = widget.itemCount;
-        WidgetsBinding.instance!.addPostFrameCallback((_) => widget.nextData());
+        WidgetsBinding.instance.addPostFrameCallback((_) => widget.nextData());
       }
 
       if (index == widget.itemCount) {
