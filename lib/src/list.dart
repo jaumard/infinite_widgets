@@ -94,7 +94,10 @@ class _InfiniteListViewState extends State<InfiniteListView> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _scrollController.removeListener(_onScroll);
+    if (widget.controller == null) {
+      _scrollController.dispose();
+    }
     super.dispose();
   }
 
@@ -102,6 +105,14 @@ class _InfiniteListViewState extends State<InfiniteListView> {
   void didUpdateWidget(InfiniteListView oldWidget) {
     if (oldWidget.itemCount != widget.itemCount) {
       _lastLoadedEvent = null;
+    }
+    if (oldWidget.controller != widget.controller) {
+      _scrollController.removeListener(_onScroll);
+      if (oldWidget.controller == null) {
+        _scrollController.dispose();
+      }
+      _scrollController = widget.controller ?? ScrollController();
+      _scrollController.addListener(_onScroll);
     }
     super.didUpdateWidget(oldWidget);
   }

@@ -1,6 +1,6 @@
 name: infinite_widgets
 description: Infinite layout widgets, allow you to easily create infinite list or infinite grid from database or network calls.
-version: 2.0.1
+version: 2.0.2
 homepage: https://github.com/jaumard/infinite_widgets
 
 environment:

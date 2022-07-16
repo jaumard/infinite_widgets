@@ -63,7 +63,10 @@ class _InfiniteGridViewState extends State<InfiniteGridView> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _scrollController.removeListener(_onScroll);
+    if (widget.controller == null) {
+      _scrollController.dispose();
+    }
     super.dispose();
   }
 
@@ -71,6 +74,14 @@ class _InfiniteGridViewState extends State<InfiniteGridView> {
   void didUpdateWidget(InfiniteGridView oldWidget) {
     if (oldWidget.itemCount != widget.itemCount) {
       _lastLoadedEvent = null;
+    }
+    if (oldWidget.controller != widget.controller) {
+      _scrollController.removeListener(_onScroll);
+      if (oldWidget.controller == null) {
+        _scrollController.dispose();
+      }
+      _scrollController = widget.controller ?? ScrollController();
+      _scrollController.addListener(_onScroll);
     }
     super.didUpdateWidget(oldWidget);
   }
