@@ -1,5 +1,7 @@
 part of '../infinite_widgets.dart';
 
+/// GridView that once the bottom is reach call [nextData] to load more element until [hasNext] is false
+/// Use [loadingWidget] to have a custom loading widget
 class InfiniteGridView extends StatefulWidget {
   final double scrollThreshold;
   final Function nextData;
@@ -21,6 +23,8 @@ class InfiniteGridView extends StatefulWidget {
   final double? cacheExtent;
   final int? semanticChildCount;
 
+  /// GridView that once the bottom is reach call [nextData] to load more element until [hasNext] is false
+  /// Use [loadingWidget] to have a custom loading widget
   const InfiniteGridView({
     required this.nextData,
     required this.itemBuilder,

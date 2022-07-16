@@ -1,8 +1,10 @@
 part of '../infinite_widgets.dart';
 
+/// ListView that once the bottom is reach call [nextData] to load more element until [hasNext] is false
+/// Use [loadingWidget] to have a custom loading widget
 class InfiniteListView extends StatefulWidget {
   final double scrollThreshold;
-  final Function nextData;
+  final void Function() nextData;
   final bool hasNext;
   final Widget? loadingWidget;
   final Widget Function(BuildContext, int) itemBuilder;
@@ -23,6 +25,8 @@ class InfiniteListView extends StatefulWidget {
   final int? semanticChildCount;
   final double? itemExtent;
 
+  /// ListView that once the bottom is reach call [nextData] to load more element until [hasNext] is false
+  /// Use [loadingWidget] to have a custom loading widget
   const InfiniteListView({
     required this.itemBuilder,
     required this.itemCount,
@@ -48,6 +52,9 @@ class InfiniteListView extends StatefulWidget {
         itemExtent = null,
         super(key: key);
 
+  /// ListView that once the bottom is reach call [nextData] to load more element until [hasNext] is false
+  /// Use [loadingWidget] to have a custom loading widget
+  /// This constructor allow a [separatorBuilder] for you to add a divider or equivalent
   const InfiniteListView.separated({
     required this.itemBuilder,
     required this.itemCount,
